@@ -1,29 +1,59 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:chat="clr-namespace:StudyHelper.Chat"
     x:Class="StudyHelper.Chat.ChatPage">
 
-    <ScrollView>
-        <Grid
-            ColumnDefinitions="*,Auto"
-            RowDefinitions="*,Auto">
-            <Editor
-                x:Name="UserPrompt"
-                Placeholder="Enter your question"
-                Grid.Row="1" />
+    <Grid
+        ColumnDefinitions="*,Auto"
+        RowDefinitions="*,Auto">
+        <Editor
+            x:Name="UserPrompt"
+            Placeholder="Enter your question"
+            Grid.Row="1" />
 
-            <Button
-                Text="Send"
-                Clicked="OnSendClicked"
-                Grid.Column="1"
-                Grid.Row="1" />
+        <Button
+            Text="Send"
+            Clicked="OnSendClicked"
+            Grid.Column="1"
+            Grid.Row="1" />
 
-            <Editor
-                x:Name="Response"
-                IsReadOnly="True"
-                Grid.ColumnSpan="2" />
-        </Grid>
-    </ScrollView>
+        <CollectionView
+            x:Name="ChatHistory"
+            Grid.ColumnSpan="2">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="chat:ChatEntry">
+                    <Border 
+                        HorizontalOptions="Start"
+                        BackgroundColor="LightBlue"
+                        Margin="10"
+                        StrokeShape="RoundRectangle 8"
+                        Padding="10">
+                        
+                        <Border.Triggers>
+                            <DataTrigger 
+                                TargetType="Border"
+                                Binding="{Binding IsUserSent}"
+                                Value="True">
+                                <Setter
+                                    Property="HorizontalOptions"
+                                    Value="End" />
+                                
+                                <Setter
+                                    Property="BackgroundColor"
+                                    Value="LightGreen" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                        
+                        <Label 
+                            Text="{Binding Message}"
+                            LineBreakMode="WordWrap"/>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 
 </ContentPage>

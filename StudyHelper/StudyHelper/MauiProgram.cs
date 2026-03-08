@@ -35,6 +35,8 @@ public static class MauiProgram
 #endif
 
         builder.Services.AddSingleton<ChatService>();
+        builder.Services.AddTransient<ChatPageViewModel>();
+        
         builder.Services.AddSingleton<VisionService>();
 
         return builder.Build();

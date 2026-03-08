@@ -4,24 +4,25 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:chat="clr-namespace:StudyHelper.Chat"
-    x:Class="StudyHelper.Chat.ChatPage">
+    x:Class="StudyHelper.Chat.ChatPage"
+    x:DataType="chat:ChatPageViewModel">
 
     <Grid
         ColumnDefinitions="*,Auto"
         RowDefinitions="*,Auto">
         <Editor
-            x:Name="UserPrompt"
+            Text="{Binding UserPrompt}"
             Placeholder="Enter your question"
             Grid.Row="1" />
 
         <Button
             Text="Send"
-            Clicked="OnSendClicked"
+            Command="{Binding SendCommand}"
             Grid.Column="1"
             Grid.Row="1" />
 
         <CollectionView
-            x:Name="ChatHistory"
+            ItemsSource="{Binding ChatEntries}"
             Grid.ColumnSpan="2">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="chat:ChatEntry">

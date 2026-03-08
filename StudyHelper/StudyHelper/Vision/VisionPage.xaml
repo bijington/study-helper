@@ -11,17 +11,18 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-            <HorizontalStackLayout>
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="25">
                 <Button
                     Text="Choose Image" 
-                    Command="{Binding ChooseCommand}"
-                    HorizontalOptions="Fill" />
+                    Command="{Binding ChooseCommand}" />
             
                 <Button
                     Text="Capture Image" 
-                    Command="{Binding CaptureCommand}"
-                    HorizontalOptions="Fill" />
-            </HorizontalStackLayout>
+                    Grid.Column="1"
+                    Command="{Binding CaptureCommand}" />
+            </Grid>
 
             <!-- captured photo preview -->
             <Image

@@ -9,7 +9,9 @@
 
     <Grid
         ColumnDefinitions="*,Auto"
-        RowDefinitions="*,Auto">
+        RowDefinitions="*,Auto"
+        Padding="20,0"
+        RowSpacing="25">
         <Editor
             Text="{Binding UserPrompt}"
             Placeholder="Enter your question"

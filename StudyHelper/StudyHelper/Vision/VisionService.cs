@@ -64,7 +64,7 @@ public class VisionService
         
         Rules:
         - Be friendly and helpful in your response
-        - If you cannot clearly see people or the image is unclear, say so
+        - If you cannot clearly see the subject or the image is unclear, say so
         - Keep responses concise (1-2 sentences)
         """;
 

@@ -11,7 +11,7 @@ public partial class VisionPage : ContentPage
         _visionService = visionService;
     }
 
-    private async void OnChooseClicked(object? sender, EventArgs e)
+    private async void OnCaptureClicked(object? sender, EventArgs e)
     {
         // Check if capture is supported
         if (!MediaPicker.Default.IsCaptureSupported)
@@ -21,17 +21,41 @@ public partial class VisionPage : ContentPage
 
         try
         {
-            _photo = (await MainThread.InvokeOnMainThreadAsync(async () =>
+            var photo = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
             {
-                return await MediaPicker.PickPhotosAsync();
-                // return await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
-                // {
-                //     Title = "Take a photo of the room",
-                //     MaximumWidth = 1024,
-                //     MaximumHeight = 1024,
-                //     CompressionQuality = 70
-                // });
-            }))?.FirstOrDefault();
+                Title = "Take a photo of the room",
+                MaximumWidth = 1024,
+                MaximumHeight = 1024,
+                CompressionQuality = 70
+            });
+
+            await LoadImageAsync(photo);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Capture issue", ex.Message, "OK");
+        }
+    }
+    
+    private async void OnChooseClicked(object? sender, EventArgs e)
+    {
+        try
+        {
+            var photo = (await MediaPicker.PickPhotosAsync()).FirstOrDefault();
+            
+            await LoadImageAsync(photo);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Choose issue", ex.Message, "OK");
+        }
+    }
+
+    private async Task LoadImageAsync(FileResult? photo)
+    {
+        try
+        {
+            _photo = photo;
 
             if (_photo is not null)
             {
@@ -52,7 +76,7 @@ public partial class VisionPage : ContentPage
         }
         catch (Exception ex)
         {
-            
+            await DisplayAlertAsync("Image load issue", ex.Message, "OK");
         }
     }
 
@@ -75,10 +99,15 @@ public partial class VisionPage : ContentPage
                 return "Vision service is not available. Please check your configuration.";
             }
 
+            if (_photo is null)
+            {
+                return "No image available. Please check your configuration.";
+            }
+
             try
             {
                 // Analyze the photo
-                using var stream = await _photo.OpenReadAsync();
+                await using var stream = await _photo.OpenReadAsync();
                 var result = await _visionService.AnalyzeImageAsync(stream, UserPrompt.Text);
 
                 if (!result.Success)
@@ -95,7 +124,7 @@ public partial class VisionPage : ContentPage
         }
         catch (Exception ex)
         {
-            return $"Sorry, I couldn't analyze the room: {ex.Message}";
+            return $"Sorry, I couldn't analyze the request: {ex.Message}";
         }
     }
 }

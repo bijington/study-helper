@@ -112,18 +112,35 @@ Models must be explicitly deployed in Azure OpenAI before use.
 ### Never Commit to Version Control
 
 - Don't add keys or endpoint URLs to Git repositories
-- Add `.env` to `.gitignore`
+- Add configuration files to `.gitignore`
 
 ### Store Credentials Securely
 
-#### Option 1: Environment Variables
+#### Option 1: Using `appsettings.Development.json` (Recommended for .NET)
+
+1. Create or edit `appsettings.Development.json` in the project root:
+```json
+{
+  "AzureOpenAI": {
+    "ApiKey": "your-api-key-here",
+    "Endpoint": "https://your-resource-name.openai.azure.com/",
+    "DeploymentName": "your-deployment-name"
+  }
+}
+```
+
+2. Ensure `appsettings.Development.json` is in your `.gitignore` file
+3. Reference these values in your application configuration
+
+#### Option 2: Environment Variables
 
 ```
 AZURE_OPENAI_API_KEY=your-api-key-here
 AZURE_OPENAI_ENDPOINT=https://your-resource-name.openai.azure.com/
+AZURE_OPENAI_DEPLOYMENT_NAME=your-deployment-name
 ```
 
-#### Option 2: .env File (Development Only)
+#### Option 3: .env File (Development Only)
 
 1. Create a `.env` file in your project root:
 ```
@@ -132,9 +149,10 @@ AZURE_OPENAI_ENDPOINT=https://your-resource-name.openai.azure.com/
 AZURE_OPENAI_DEPLOYMENT_NAME=your-deployment-name
 ```
 
-2. Add `.env` to `.gitignore`:
+2. Add sensitive files to `.gitignore`:
 
 ```
+appsettings.Development.json
 .env
 .env.local
 *.key
@@ -228,6 +246,7 @@ Deployment Name: study-helper-gpt4
 - [Azure OpenAI Quickstart](https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart)
 - [Azure Cost Management](https://portal.azure.com/#view/Microsoft_Azure_CostManagement/Menu)
 - [Azure Support](https://azure.microsoft.com/en-us/support/)
+- [BaristaNodes](https://github.com/davidortinau/BaristaNotes) inspiration for vision processing
 
 ## Security Best Practices
 

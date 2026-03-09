@@ -57,17 +57,40 @@ When your free credits expire or to continue after the trial period:
 
 1. **Never commit your API key to version control** (Git, GitHub, etc.)
 2. Store your API key in one of these secure locations:
+   - A `appsettings.Development.json` file (add to `.gitignore`)
    - Environment variables on your development machine
    - A `.env` file (add `.env` to `.gitignore`)
    - A secure secrets manager
 
-### Example `.env` file setup:
+### Option 1: Using `appsettings.Development.json` (Recommended for .NET)
+
+1. Create or edit `appsettings.Development.json` in the project root:
+```json
+{
+  "OpenAI": {
+    "ApiKey": "sk-your-api-key-here"
+  }
+}
+```
+
+2. Ensure `appsettings.Development.json` is in your `.gitignore` file
+3. Reference the key in your application configuration
+
+### Option 2: Using `.env` file setup
 
 ```
 OPENAI_API_KEY=sk-your-api-key-here
 ```
 
-3. Add `.env` to your `.gitignore` file to prevent accidental commits
+### Add to `.gitignore`
+
+Ensure both configuration files are ignored:
+```
+appsettings.Development.json
+.env
+.env.local
+*.key
+```
 
 ## Step 5: Using Your API Key in the Application
 

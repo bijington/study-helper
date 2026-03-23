@@ -42,3 +42,7 @@ The Vision feature demonstrates integration with Azure OpenAI services, includin
 ## License
 
 See the [LICENSE](./LICENSE) file for details.
+
+## Inspiration
+
+Inspiration for elements such as the Vision implementation came from the fantastic https://github.com/davidortinau/BaristaNotes built by @DavidOrtinau.
